@@ -7,7 +7,7 @@ const { Util } = require('wood-util')();
 
 class Queue {
   constructor(opts = {}) {
-    this.redisDb = opts.redis;
+    this.redis = opts.redis;
     if(!this.redis) console.warn('Queue Redis 没找到实例');
   }
 
