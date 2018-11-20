@@ -11,21 +11,20 @@ class Queue {
     if(!this.redis) console.warn('Queue Redis 没找到实例');
   }
 
-  push(key, value) {
-    // if(typeof value === 'object') value = JSON.stringify(value);
+  push(listkey, value) {
     return new Promise((resolve, reject) => {
       if(!this.redis) throw Util.error('入队失败');
-      this.redis.lpush(key, value, (err, reply) => {
+      this.redis.lpush(listkey, value, (err, reply) => {
         if (err) reject(err);
-        resolve(true);
+        resolve(value);
       });
     });
   }
 
-  pop(key, times = 0) {
+  pop(listkey, times = 0) {
     return new Promise((resolve, reject) => {
       if(!this.redis) throw Util.error('出队失败');
-      this.redis.brpop(key, times, (err, repl) => {
+      this.redis.brpop(listkey, times, (err, repl) => {
         if (err) reject(err);
         resolve(repl[1]);
       });
