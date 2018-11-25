@@ -6,7 +6,7 @@
 const Queue = require('./src/queue');
 
 module.exports = (app = {}, config = {}) => {
-  let redisPlugin = app.getPlugin('redis'),
+  let redisPlugin = app.Plugin('redis'),
     redisDb = null;
   if(redisPlugin && redisPlugin.Redis && redisPlugin.Redis.db){
     redisDb = redisPlugin.Redis.db;

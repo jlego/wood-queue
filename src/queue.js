@@ -3,8 +3,7 @@
  * redis queue
  * by jlego on 2018-11-20
  */
-const { Util } = require('wood-util')();
-
+const { error } = WOOD;
 class Queue {
   constructor(opts = {}) {
     this.redis = opts.redis;
@@ -13,7 +12,7 @@ class Queue {
 
   push(listkey, value) {
     return new Promise((resolve, reject) => {
-      if(!this.redis) throw Util.error('入队失败');
+      if(!this.redis) throw WOOD.error('入队失败');
       this.redis.lpush(listkey, value, (err, reply) => {
         if (err) reject(err);
         resolve(value);
@@ -23,7 +22,7 @@ class Queue {
 
   pop(listkey, times = 0) {
     return new Promise((resolve, reject) => {
-      if(!this.redis) throw Util.error('出队失败');
+      if(!this.redis) throw WOOD.error('出队失败');
       this.redis.brpop(listkey, times, (err, repl) => {
         if (err) reject(err);
         resolve(repl[1]);
