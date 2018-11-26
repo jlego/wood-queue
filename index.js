@@ -6,15 +6,12 @@
 const Queue = require('./src/queue');
 
 module.exports = (app = {}, config = {}) => {
-  let redisPlugin = app.Plugin('redis'),
-    redisDb = null,
-    _queues = new Map();
-  if(redisPlugin && redisPlugin.Redis && redisPlugin.Redis.db){
-    redisDb = redisPlugin.Redis.db;
-  }
+  let _queues = new Map();
   app.Queue = function(queueName, options = {}) {
+    let { Redis } = app.Plugin('redis'),
+      redisDb = new Redis(queueName, options.db, app);
     if(!_queues.has(queueName)){
-      _queues.set(queueName, new Queue({redis: redisDb, ctx: app, options }));
+      _queues.set(queueName, new Queue({redis: redisDb.db, ctx: app, options }));
     }
     return _queues.get(queueName);
   }
