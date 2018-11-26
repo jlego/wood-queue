@@ -11,7 +11,7 @@ module.exports = (app = {}, config = {}) => {
   if(redisPlugin && redisPlugin.Redis && redisPlugin.Redis.db){
     redisDb = redisPlugin.Redis.db;
   }
-  app.Queue = new Queue({redis: redisDb });
+  app.Queue = new Queue({redis: redisDb, ctx: app });
   if(app.addAppProp) app.addAppProp('Queue', app.Queue);
   return app;
 }
